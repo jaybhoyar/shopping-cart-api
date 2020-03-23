@@ -1,12 +1,24 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
+const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-
 var app = express();
+require("dotenv");
+mongoose.connect(
+	"mongodb://localhost/shopping-cart-api",
+	{
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false
+	},
+	err => {
+		console.log(err ? err : "Connected......");
+	}
+);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
