@@ -27,6 +27,9 @@ const userSchema = new Schema(
 			type: Boolean,
 			default: false
 		},
+		token: {
+			type: String
+		},
 		isAdmin: {
 			type: Boolean,
 			default: false
