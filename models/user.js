@@ -50,4 +50,22 @@ const userSchema = new Schema(
 	}
 );
 
+userSchema.pre("save", async function(next) {
+	try {
+		if (this.password && this.isModified) {
+			this.password = await hash(this.password, 10);
+			next();
+		}
+	} catch (error) {
+		next(error);
+	}
+});
+userSchema.methods.verifyPassword = async function(password) {
+	try {
+		return await compare(password, this.password);
+	} catch (error) {
+		next(error);
+	}
+};
+
 module.exports = mongoose.model("User", userSchema);

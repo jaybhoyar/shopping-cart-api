@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.generateJWT = async (req, res, next) => {
+exports.generateJWT = async (user, next) => {
 	try {
-		var payload = { userid: user.id, username: user.username };
+		var payload = { userId: user.id, email: user.email };
 		var token = await jwt.sign(payload, process.env.SECRET);
 		return token;
 	} catch (error) {
@@ -12,10 +12,11 @@ exports.generateJWT = async (req, res, next) => {
 };
 
 exports.validateJWT = async (req, res, next) => {
-	var token = req.headers["authorization"] || "";
 	try {
+		var token = req.headers["authorization"] || "";
 		if (token) {
-			var payload = await jwt.verify(toke, process.env.SECRET);
+			console.log(token);
+			var payload = await jwt.verify(token, process.env.SECRET);
 			req.user = payload;
 			req.user.token = token;
 			next();
