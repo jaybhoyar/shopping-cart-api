@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Product = require("../models/product");
+const Cart = require("../models/cart");
 
 const auth = require("../modules/auth");
 
@@ -8,6 +9,8 @@ exports.register = async (req, res, next) => {
 		const user = await User.create(req.body.user);
 		const token = await auth.generateJWT(user, next);
 		user.token = token;
+		const cart = await Cart.create(req.body.user);
+
 		res.status(200).json({ user });
 	} catch (error) {
 		next(error);
