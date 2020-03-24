@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
-
 const auth = require("../modules/auth");
 
 exports.register = async (req, res, next) => {
@@ -9,9 +8,14 @@ exports.register = async (req, res, next) => {
 		const user = await User.create(req.body.user);
 		const token = await auth.generateJWT(user, next);
 		user.token = token;
-		const cart = await Cart.create(req.body.user);
-
-		res.status(200).json({ user });
+		const cart = await Cart.create({ userId: user._id });
+		const updateUser = await User.findByIdAndUpdate(
+			user._id,
+			{ cartId: cart._id, upsert: true },
+			{ new: true }
+		);
+		console.log(updateUser);
+		res.status(200).json({ updateUser });
 	} catch (error) {
 		next(error);
 	}
