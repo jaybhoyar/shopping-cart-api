@@ -15,7 +15,6 @@ exports.validateJWT = async (req, res, next) => {
 	try {
 		var token = req.headers["authorization"] || "";
 		if (token) {
-			console.log(token);
 			var payload = await jwt.verify(token, process.env.SECRET);
 			req.user = payload;
 			req.user.token = token;
