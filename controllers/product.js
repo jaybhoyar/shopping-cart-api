@@ -20,3 +20,12 @@ exports.allProduct = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.singleProduct = async (req, res, next) => {
+	try {
+		var product = await Product.findById(req.params.id);
+		res.status(200).json({ product: product });
+	} catch (error) {
+		next(error);
+	}
+};
