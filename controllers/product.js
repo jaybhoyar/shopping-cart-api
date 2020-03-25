@@ -41,3 +41,12 @@ exports.updateProduct = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.deleteProduct = async (req, res, next) => {
+	try {
+		var product = await Product.findByIdAndDelete(req.params.id);
+		res.status(200).json({ deleteProduct: product });
+	} catch (error) {
+		next(error);
+	}
+};
