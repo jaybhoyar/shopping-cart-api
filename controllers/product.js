@@ -29,3 +29,15 @@ exports.singleProduct = async (req, res, next) => {
 		next(error);
 	}
 };
+exports.updateProduct = async (req, res, next) => {
+	try {
+		var product = await Product.findByIdAndUpdate(
+			req.params.id,
+			req.body.product,
+			{ new: true }
+		);
+		res.status(200).json({ updatedProduct: product });
+	} catch (error) {
+		next(error);
+	}
+};
