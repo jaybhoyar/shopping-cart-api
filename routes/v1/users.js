@@ -17,5 +17,7 @@ router.get("/dashboard/item/:id", auth.validateJWT, userController.singleItem);
 router.get("/", auth.isAdmin, userController.allUsers);
 // Make a user to Admin
 router.put("/makeadmin/:id", auth.isAdmin, userController.makeAdmin);
+//  Block user
+router.put("/block/:id", auth.isAdmin, userController.blockUser);
 
 module.exports = router;

@@ -80,3 +80,16 @@ exports.allUsers = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.blockUser = async (req, res, next) => {
+	try {
+		var user = await User.findByIdAndUpdate(
+			{ _id: req.params.id },
+			{ isBlocked: true },
+			{ new: true }
+		);
+		res.status(200).json({ user });
+	} catch (error) {
+		next(error);
+	}
+};
