@@ -59,3 +59,24 @@ exports.singleItem = async (req, res, next) => {
 		next(error);
 	}
 };
+exports.makeAdmin = async (req, res, next) => {
+	try {
+		var user = await User.findByIdAndUpdate(
+			{ _id: req.params.id },
+			{ isAdmin: true },
+			{ new: true }
+		);
+		res.status(200).json({ user });
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.allUsers = async (req, res, next) => {
+	try {
+		var users = await User.find({});
+		res.status(200).json({ users });
+	} catch (error) {
+		next(error);
+	}
+};
