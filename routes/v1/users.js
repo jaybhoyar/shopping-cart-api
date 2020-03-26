@@ -10,5 +10,6 @@ router.get("/", (req, res, next) => {
 router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.get("/dashboard", auth.validateJWT, userController.dashboard);
+router.get("/dashboard/item/:id", auth.validateJWT, userController.singleItem);
 
 module.exports = router;

@@ -44,8 +44,17 @@ exports.login = async (req, res, next) => {
 
 exports.dashboard = async (req, res, next) => {
 	try {
-		var product = await Product.find({});
-		res.json({ product });
+		var products = await Product.find({});
+		res.status(200).json({ products });
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.singleItem = async (req, res, next) => {
+	try {
+		var product = await Product.findById(req.params.id);
+		res.status(200).json({ product });
 	} catch (error) {
 		next(error);
 	}
