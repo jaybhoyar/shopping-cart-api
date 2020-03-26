@@ -93,3 +93,18 @@ exports.blockUser = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.deleteUser = async (req, res, next) => {
+	try {
+		var user = await User.findById(req.userId);
+		if (user._id == req.userId) {
+			var user = await User.findByIdAndDelete(req.userId);
+			await Cart.findOneAndDelete({ userId: user.id });
+			res.status(200).json({ success: "User deleted Successfully" });
+		} else {
+			res.status(200).json({ error: "Cannot delete user" });
+		}
+	} catch (error) {
+		next(error);
+	}
+};

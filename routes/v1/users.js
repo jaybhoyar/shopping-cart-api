@@ -19,5 +19,7 @@ router.get("/", auth.isAdmin, userController.allUsers);
 router.put("/makeadmin/:id", auth.isAdmin, userController.makeAdmin);
 //  Block user
 router.put("/block/:id", auth.isAdmin, userController.blockUser);
+//  Delete User
+router.delete("/delete", auth.validateJWT, userController.deleteUser);
 
 module.exports = router;

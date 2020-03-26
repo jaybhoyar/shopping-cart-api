@@ -18,6 +18,7 @@ exports.validateJWT = async (req, res, next) => {
 		if (token) {
 			var payload = await jwt.verify(token, process.env.SECRET);
 			req.user = payload;
+			req.userId = payload.userId;
 			req.user.token = token;
 			next();
 		} else {
