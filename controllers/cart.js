@@ -6,8 +6,18 @@ const auth = require("../modules/auth");
 
 exports.allItems = async (req, res, next) => {
 	try {
-		var user = await User.find({});
-		res.status(200).json({ items });
+		var user = await User.findById(req.userId);
+		var cart = await (await Cart.findById(user.cartId))
+			.populate({
+				path: "items",
+				populate: {
+					path: "productId",
+					model: "Product"
+				}
+			})
+			.execPopulate();
+		var items = await Item.find().populate("ProductId");
+		res.status(200).json({ items: cart.items });
 	} catch (error) {
 		next(error);
 	}
