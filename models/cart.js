@@ -5,10 +5,12 @@ var cartSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: "User"
 	},
-	items: {
-		type: Schema.Types.ObjectId,
-		ref: "Item"
-	}
+	items: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Item"
+		}
+	]
 });
 
 module.exports = mongoose.model("Cart", cartSchema);
