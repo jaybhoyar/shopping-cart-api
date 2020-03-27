@@ -2,8 +2,6 @@ const Cart = require("../models/cart");
 const User = require("../models/user");
 const Item = require("../models/item");
 
-const auth = require("../modules/auth");
-
 exports.allItems = async (req, res, next) => {
 	try {
 		var user = await User.findById(req.userId);
@@ -16,7 +14,6 @@ exports.allItems = async (req, res, next) => {
 				}
 			})
 			.execPopulate();
-		var items = await Item.find().populate("ProductId");
 		res.status(200).json({ items: cart.items });
 	} catch (error) {
 		next(error);
@@ -29,7 +26,7 @@ exports.addItem = async (req, res, next) => {
 		var cart = await Cart.findByIdAndUpdate(
 			user.cartId,
 			{
-				$push: { items: item.id }
+				$addToSet: { items: item.id }
 			},
 			{ new: true }
 		);
@@ -40,6 +37,15 @@ exports.addItem = async (req, res, next) => {
 };
 exports.deleteItem = async (req, res, next) => {
 	try {
+		var user = await User.findById(req.userId);
+		var cart = await Cart.findByIdAndUpdate(
+			user.cartId,
+			{
+				$pull: { items: req.params.id }
+			},
+			{ new: true }
+		);
+		res.status(200).json({ cart });
 	} catch (error) {
 		next(error);
 	}
