@@ -7,8 +7,8 @@ exports.allItems = async (req, res, next) => {
 	try {
 		var user = await User.findById(req.userId);
 		var cart = await await Cart.findById(user.cartId);
-    console.log(cart.items);
-    
+		console.log(cart.items);
+
 		res.status(200).json({ cart });
 	} catch (error) {
 		next(error);
