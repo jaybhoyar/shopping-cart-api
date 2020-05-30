@@ -3,14 +3,13 @@ const Schema = mongoose.Schema;
 var cartSchema = new Schema({
 	userId: {
 		type: Schema.Types.ObjectId,
-		ref: "User"
+		ref: "User",
 	},
 	items: [
 		{
-			type: Schema.Types.ObjectId,
-			ref: "Item"
-		}
-	]
+			type: String,
+		},
+	],
 });
 
 module.exports = mongoose.model("Cart", cartSchema);
