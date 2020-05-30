@@ -6,10 +6,12 @@ const Product = require("../models/product");
 exports.allItems = async (req, res, next) => {
 	try {
 		var user = await User.findById(req.userId);
-		var cart = await await Cart.findById(user.cartId);
-		console.log(cart.items);
+		var cart = await Cart.findById(user.cartId);
+		var items = await Item.find({});
 
-		res.status(200).json({ cart });
+		console.log(items);
+
+		res.status(200).json({ items });
 	} catch (error) {
 		next(error);
 	}
@@ -39,7 +41,7 @@ exports.addItem = async (req, res, next) => {
 		var cart = await Cart.findByIdAndUpdate(
 			user.cartId,
 			{
-				$addToSet: { items: item.productId },
+				$addToSet: { items: item.name },
 			},
 			{ new: true }
 		);
