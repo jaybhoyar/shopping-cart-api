@@ -8,9 +8,6 @@ exports.allItems = async (req, res, next) => {
 		var user = await User.findById(req.userId);
 		var cart = await Cart.findById(user.cartId);
 		var items = await Item.find({});
-
-		console.log(items);
-
 		res.status(200).json({ items });
 	} catch (error) {
 		next(error);
@@ -29,14 +26,12 @@ exports.addItem = async (req, res, next) => {
 				{ $inc: { quantity: 1 } },
 				{ new: true }
 			);
-			console.log("-----", item);
 		} else {
 			var item = await Item.create({
 				productId: req.params.id,
 				name: product.name,
 				quantity: 1,
 			});
-			console.log("-----", item);
 		}
 		var cart = await Cart.findByIdAndUpdate(
 			user.cartId,
@@ -45,7 +40,6 @@ exports.addItem = async (req, res, next) => {
 			},
 			{ new: true }
 		);
-		console.log("---------", cart.items);
 		res.json({ item });
 	} catch (error) {
 		next(error);
