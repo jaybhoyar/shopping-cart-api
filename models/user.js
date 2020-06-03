@@ -5,52 +5,52 @@ var { hash, compare } = require("bcryptjs");
 const userSchema = new Schema(
 	{
 		username: {
-			type: String
+			type: String,
 		},
 		name: {
 			type: String,
-			required: true
+			required: true,
 		},
 		email: {
 			type: String,
 			required: true,
-			unique: true
+			unique: true,
 		},
 		photo: {
-			type: String
+			type: String,
 		},
 		password: {
 			type: String,
-			required: true
+			required: true,
 		},
 		isBlocked: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		token: {
-			type: String
+			type: String,
 		},
 		isAdmin: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		cartId: {
 			type: Schema.Types.ObjectId,
-			ref: "Cart"
+			ref: "Cart",
 		},
 		favourites: [
 			{
 				type: Schema.Types.ObjectId,
-				ref: "Product"
-			}
-		]
+				ref: "Product",
+			},
+		],
 	},
 	{
-		timestamps: true
+		timestamps: true,
 	}
 );
 
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
 	try {
 		if (this.password && this.isModified) {
 			this.password = await hash(this.password, 10);
@@ -60,7 +60,7 @@ userSchema.pre("save", async function(next) {
 		next(error);
 	}
 });
-userSchema.methods.verifyPassword = async function(password) {
+userSchema.methods.verifyPassword = async function (password) {
 	try {
 		return await compare(password, this.password);
 	} catch (error) {
