@@ -5,8 +5,6 @@ const Product = require("../models/product");
 
 exports.allItems = async (req, res, next) => {
 	try {
-		var user = await User.findById(req.userId);
-		var cart = await Cart.findById(user.cartId);
 		var items = await Item.find({});
 		res.status(200).json({ items });
 	} catch (error) {
@@ -40,7 +38,7 @@ exports.addItem = async (req, res, next) => {
 			},
 			{ new: true }
 		);
-		res.json({ item });
+		res.json({ cart: cart.items });
 	} catch (error) {
 		next(error);
 	}

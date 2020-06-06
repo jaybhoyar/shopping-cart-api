@@ -14,7 +14,6 @@ exports.register = async (req, res, next) => {
 			{ cartId: cart._id, upsert: true },
 			{ new: true }
 		);
-		console.log(updateUser);
 		res.status(200).json({ updateUser });
 	} catch (error) {
 		next(error);
